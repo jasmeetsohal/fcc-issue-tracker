@@ -9,19 +9,11 @@
 'use strict';
 
 var expect = require('chai').expect;
-var MongoClient = require('mongodb');
-var ObjectId = require('mongodb').ObjectID;
-
-const CONNECTION_STRING = process.env.DB; //MongoClient.connect(CONNECTION_STRING, function(err, db) {});
-
-
-
+const mongo = require('../controller/mongo.js');
 
 
 module.exports = function (app) {
   
-  MongoClient.connect(CONNECTION_STRING, function(err, db) {
-
   app.route('/api/issues/:project')
   
     .get(function (req, res){
@@ -30,9 +22,22 @@ module.exports = function (app) {
     })
     
     .post(function (req, res){
-      var project = req.params.project;
+    // ({a, b, ...rest} = {a: 10, b: 20, c: 30, d: 40});
+      // let objectToSave;
+      // ({objectToSave} = {req['body']});
+    
+  //    { project: 'apitest' } { issue_title: 'asdf',
+  // issue_text: 'asdf',
+  // created_by: 'adsf',
+  // assigned_to: 'adsf',
+  // status_text: 'adsf' }
+      let reqBody = req.body;
+      let objectToSave=req.body;
+      objectToSave.status = true;
+      mongo.save(objectToSave).then((result,err)=>{
+         console.log("result saved :: ",result);
+      }).catch(e=>console.log(e));
       
-      console.log('Hello from ', req.params);
       
     })
     
@@ -44,8 +49,6 @@ module.exports = function (app) {
     .delete(function (req, res){
       var project = req.params.project;
       
-    });
-    
     });
     
 };
