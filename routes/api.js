@@ -19,21 +19,15 @@ module.exports = function (app) {
     .get(function (req, res){
       var project = req.params.project;
       
+      
     })
     
     .post(function (req, res){
-    // ({a, b, ...rest} = {a: 10, b: 20, c: 30, d: 40});
-      // let objectToSave;
-      // ({objectToSave} = {req['body']});
-    
-  //    { project: 'apitest' } { issue_title: 'asdf',
-  // issue_text: 'asdf',
-  // created_by: 'adsf',
-  // assigned_to: 'adsf',
-  // status_text: 'adsf' }
       let reqBody = req.body;
       let objectToSave=req.body;
       objectToSave.status = true;
+      objectToSave.created_on = new Date();
+      objectToSave.updated_on = new Date();
       mongo.save(objectToSave).then((result,err)=>{
          console.log("result saved :: ",result);
       }).catch(e=>console.log(e));
@@ -48,6 +42,7 @@ module.exports = function (app) {
     
     .delete(function (req, res){
       var project = req.params.project;
+      console.log("body   :::: ",req.body);
       
     });
     
