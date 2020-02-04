@@ -4,12 +4,27 @@ var express     = require('express');
 var bodyParser  = require('body-parser');
 var expect      = require('chai').expect;
 var cors        = require('cors');
+const helmet    = require('helmet')
 
 var apiRoutes         = require('./routes/api.js');
 var fccTestingRoutes  = require('./routes/fcctesting.js');
 var runner            = require('./test-runner');
 
 var app = express();
+
+var MongoClient = require('mongodb');
+
+const CONNECTION_STRING = process.env.DB; //MongoClient.connect(CONNECTION_STRING, function(err, db) {});
+const mongo = require('./controller/mongo.js');
+
+
+MongoClient.connect(CONNECTION_STRING, (err, db)=>{
+   if (err) throw err;
+   mongo.setDB(db);
+});
+
+//Prevent cross site scripting(XSS attack).
+app.use(helmet.xssFilter())
 
 app.use('/public', express.static(process.cwd() + '/public'));
 

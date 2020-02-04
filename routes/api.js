@@ -9,30 +9,29 @@
 'use strict';
 
 var expect = require('chai').expect;
-var MongoClient = require('mongodb');
-var ObjectId = require('mongodb').ObjectID;
-
-const CONNECTION_STRING = process.env.DB; //MongoClient.connect(CONNECTION_STRING, function(err, db) {});
-
-
-
+const mongo = require('../controller/mongo.js');
 
 
 module.exports = function (app) {
   
-  MongoClient.connect(CONNECTION_STRING, function(err, db) {
-
   app.route('/api/issues/:project')
   
     .get(function (req, res){
       var project = req.params.project;
       
+      
     })
     
     .post(function (req, res){
-      var project = req.params.project;
+      let reqBody = req.body;
+      let objectToSave=req.body;
+      objectToSave.status = true;
+      objectToSave.created_on = new Date();
+      objectToSave.updated_on = new Date();
+      mongo.save(objectToSave).then((result,err)=>{
+         console.log("result saved :: ",result);
+      }).catch(e=>console.log(e));
       
-      console.log('Hello from ', req.params);
       
     })
     
@@ -43,9 +42,8 @@ module.exports = function (app) {
     
     .delete(function (req, res){
       var project = req.params.project;
+      console.log("body   :::: ",req.body);
       
-    });
-    
     });
     
 };
