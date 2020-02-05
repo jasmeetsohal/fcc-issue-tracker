@@ -8,4 +8,6 @@ Project Issue Tracker
 3) You will add any security features to `server.js`
 4) You will create all of the functional tests in `tests/2_functional-tests.js`
 
+[![Run on Repl.it](https://repl.it/badge/github/jasmeetsohal/fcc-issue-tracker)](https://repl.it/github/jasmeetsohal/fcc-issue-tracker)
+
 
